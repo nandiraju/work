@@ -364,11 +364,20 @@
     }
 
     .sort-indicator {
-      display: inline-block;
-      margin-left: 0.25rem;
-      font-size: 0.75rem;
-      vertical-align: middle;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      width: 12px;
+      height: 12px;
       transition: transform 0.2s ease;
+    }
+
+    .th-content {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      vertical-align: middle;
     }
 
     /* General tags and links */
@@ -493,10 +502,14 @@
       <table>
         <thead>
           <tr>
-            <th class="sortable" onclick="handleSort('title')">Project Name <span id="sortIndicatorTitle" class="sort-indicator"></span></th>
-            <th class="sortable" onclick="handleSort('tag')">Category <span id="sortIndicatorTag" class="sort-indicator"></span></th>
-            <th>Description</th>
-            <th>Links</th>
+            <th class="sortable" onclick="handleSort('title')">
+              <span class="th-content">Project Name <span id="sortIndicatorTitle" class="sort-indicator"></span></span>
+            </th>
+            <th class="sortable" onclick="handleSort('tag')">
+              <span class="th-content">Category <span id="sortIndicatorTag" class="sort-indicator"></span></span>
+            </th>
+            <th><span class="th-content">Description</span></th>
+            <th><span class="th-content">Links</span></th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -663,18 +676,21 @@
       updateSortIndicators();
     }
 
+    const arrowAsc = `<svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>`;
+    const arrowDesc = `<svg viewBox="0 0 24 24" width="12" height="12" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>`;
+
     function updateSortIndicators() {
       const titleInd = document.getElementById("sortIndicatorTitle");
       const tagInd = document.getElementById("sortIndicatorTag");
       
-      titleInd.textContent = "";
-      tagInd.textContent = "";
+      titleInd.innerHTML = "";
+      tagInd.innerHTML = "";
       
-      const arrow = sortOrder === "asc" ? " ▴" : " ▾";
+      const arrowHtml = sortOrder === "asc" ? arrowAsc : arrowDesc;
       if (sortBy === "title") {
-        titleInd.textContent = arrow;
+        titleInd.innerHTML = arrowHtml;
       } else if (sortBy === "tag") {
-        tagInd.textContent = arrow;
+        tagInd.innerHTML = arrowHtml;
       }
     }
 
